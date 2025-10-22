@@ -1,0 +1,43 @@
+{
+  "files": [
+    {
+      "path": "index.html",
+      "content": "<!doctype html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Data Processing App</title>\n    <link rel=\"stylesheet\" href=\"styles.css\">\n</head>\n<body>\n    <h1>Data Processing Application</h1>\n    <p>This application processes data from an Excel file and generates a JSON result.</p>\n    <p>Check the GitHub Actions for the results of the execution.</p>\n</body>\n</html>",
+      "encoding": "utf-8"
+    },
+    {
+      "path": "styles.css",
+      "content": "body {\n    font-family: Arial, sans-serif;\n    margin: 20px;\n}\nh1 {\n    color: #333;\n}\n",
+      "encoding": "utf-8"
+    },
+    {
+      "path": "README.md",
+      "content": "# Data Processing Application\n\nThis repository contains a Python application that processes data from an Excel file and outputs the results in JSON format.\n\n## Setup Instructions\n1. Ensure you have Python 3.11+ and Pandas 2.3 installed.\n2. Run `python execute.py` to process the data.\n\n## GitHub Actions\nThe repository includes a CI workflow that:\n- Runs `ruff` to check for code quality.\n- Executes `execute.py` to generate `result.json`.\n- Publishes `result.json` via GitHub Pages.\n\n## License\nThis project is licensed under the MIT License.",
+      "encoding": "utf-8"
+    },
+    {
+      "path": "LICENSE",
+      "content": "MIT License\n\nCopyright (c) 2023 [Your Name]\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\n...",
+      "encoding": "utf-8"
+    },
+    {
+      "path": "execute.py",
+      "content": "import pandas as pd\n\n# Load data from Excel file\nexcel_file = './assets/data.xlsx'\ndata = pd.read_excel(excel_file)\n\n# Process data (fixing the typo 'revenew')\n# Assuming some processing logic here\nprocessed_data = data.to_dict(orient='records')\n\n# Output result to JSON\nimport json\nwith open('result.json', 'w') as json_file:\n    json.dump(processed_data, json_file, indent=4)\n",
+      "encoding": "utf-8"
+    },
+    {
+      "path": "data.csv",
+      "content": "Column1,Column2,Column3\nValue1,Value2,Value3\nValue4,Value5,Value6\n",  "encoding": "utf-8"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "content": "name: CI\n\non:\n  push:\n    branches:\n      - main\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout code\n        uses: actions/checkout@v2\n\n      - name: Set up Python\n        uses: actions/setup-python@v2\n        with:\n          python-version: '3.11'\n\n      - name: Install dependencies\n        run: |\n          pip install pandas\n          pip install ruff\n\n      - name: Run ruff\n        run: ruff .\n\n      - name: Execute script\n        run: python execute.py\n\n      - name: Deploy to GitHub Pages\n        uses: peaceiris/actions-gh-pages@v3\n        with:\n          github_token: ${{ secrets.GITHUB_TOKEN }}\n          publish_dir: ./\n          publish_branch: gh-pages\n          publish_path: result.json\n",
+      "encoding": "utf-8"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "content": "name: Deploy to GitHub Pages\n\non:\n  push:\n    branches:\n      - main\n\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout code\n        uses: actions/checkout@v2\n\n      - name: Deploy\n        uses: peaceiris/actions-gh-pages@v3\n        with:\n          github_token: ${{ secrets.GITHUB_TOKEN }}\n          publish_dir: ./\n          publish_branch: gh-pages\n",
+      "encoding": "utf-8"
+    }
+  ]
+}
